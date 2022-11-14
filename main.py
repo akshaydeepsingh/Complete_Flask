@@ -1,5 +1,5 @@
 from flask import Flask
-
+from routes.user import route as user
 app = Flask(__name__)
 
 with app.app_context():
@@ -7,6 +7,8 @@ with app.app_context():
     from model.posts import Posts
     from model.user_details import UserSchema
     Base.metadata.create_all(bind=engine)
+
+app.register_blueprint(user.userBlueprint)
 
 @app.before_request
 def closeConnection():
