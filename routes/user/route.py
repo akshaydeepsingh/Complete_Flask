@@ -16,7 +16,7 @@ class UserFunction(Resource):
             response = userschema.dump(user)
             print(response)
             # del response["id"]
-            # return response
+            return response
         else:
             user = User.query.filter_by(id=id).first()
             userschema = UserSchema()
