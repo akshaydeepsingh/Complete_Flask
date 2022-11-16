@@ -10,10 +10,20 @@ userRoute = Api(userBlueprint)
 class UserFunction(Resource):
     def get(self,id=None):
         if id is None:
-            return "all users"
+            user = User.all()
+            
+            userschema = UserSchema()
+            response = userschema.dump(user)
+            print(response)
+            # del response["id"]
+            # return response
         else:
-
-            return f"its user {id}"
+            user = User.query.filter_by(id=id).first()
+            userschema = UserSchema()
+            response = userschema.dump(user)
+            del response["id"]
+            return response
+            
     def post(self):
         userdata = request.json
         userschema = UserSchema()
