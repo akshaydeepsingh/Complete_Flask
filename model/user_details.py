@@ -7,7 +7,7 @@ class User(Base):
     id = Column(Integer, primary_key=True)
     firstname = Column(Text(30))
     lastname = Column(Text(25),nullable=True)
-    email = Column(Text(50),unique=True)
+    email = Column(String(100),nullable=False)
     password = Column(Text(100))
     registerdate = Column(DateTime, server_default=func.now())
 
