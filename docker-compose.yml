@@ -1,0 +1,18 @@
+version: '3.1'
+services:
+  db:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_DB: "my_stuff"
+      MYSQL_USER: "asr"
+      MYSQL_ROOT_PASSWORD: "PASSWORD"
+      MYSQL_PASSWORD: "1337"
+    ports:
+      - "3306:3307"
+
+
+
+
+
+
