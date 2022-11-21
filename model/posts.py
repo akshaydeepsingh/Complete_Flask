@@ -1,5 +1,5 @@
 from config.dbConnection import Base
-from sqlalchemy import Column,Text,Integer,Boolean,DateTime,func,TIMESTAMP
+from sqlalchemy import Column,Text,Integer,Boolean,DateTime,func,TIMESTAMP,ForeignKey
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 
 class Posts(Base):
@@ -9,10 +9,10 @@ class Posts(Base):
     category = Column(Text(50))
     Description = Column(Text(500),nullable = True)
     created_time = Column( TIMESTAMP(timezone=False), nullable=False, server_default=func.now())
+    userid = Column(Integer,ForeignKey("user.id"))
 
 
-    def __init__(self,id,title,category,Description):
-        self.id = id
+    def __init__(self,title,category,Description):
         self.title = title
         self.category = category
         self.Description = Description
@@ -23,4 +23,5 @@ class PostsSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = Posts
         load_instance = True
+       
 

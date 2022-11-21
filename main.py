@@ -1,5 +1,6 @@
 from flask import Flask
 from routes.user import route as user
+from routes.posts import route as post
 app = Flask(__name__)
 
 with app.app_context():
@@ -7,7 +8,7 @@ with app.app_context():
     from model.posts import Posts
     from model.user_details import UserSchema
     Base.metadata.create_all(bind=engine)
-
+user.userBlueprint.register_blueprint(post.postBlueprint)
 app.register_blueprint(user.userBlueprint)
 
 @app.before_request
