@@ -5,17 +5,21 @@ from marshmallow.exceptions import ValidationError
 from config.dbConnection import db_session
 import json
 userBlueprint = Blueprint("userBlueprint",__name__,url_prefix='/users')
+
 userRoute = Api(userBlueprint)
 
-class UserFunction(Resource):
+class UserClass(Resource):
     def get(self,id=None):
         if id is None:
-            user = User.all()
-            
-            userschema = UserSchema()
+            user = User.query.all()
+            userschema = UserSchema(many=True)
             response = userschema.dump(user)
+<<<<<<< HEAD
             print(response)
             # del response["id"]
+=======
+            
+>>>>>>> a92bdc5b52984a5df98f0427f0e07039627da414
             return response
         else:
             user = User.query.filter_by(id=id).first()
@@ -35,9 +39,25 @@ class UserFunction(Resource):
             return userdata
         except ValidationError as e:
             return {'message': json.dumps(e.messages)}
+    def put(self,id):
+        userdata = request.json
+        userschema = UserSchema()
+        try:
+            user = User.query.filter_by(id=id).first()
+            userschema.load(userdata,instance=user,session=db_session)
+            db_session.commit()
+            response = userschema.dump(user)
+            return userdata
+        except ValidationError as e:
+            return {'message': json.dumps(e.messages)}
+    def delete(self,id):
+        User.query.filter_by(id = id).delete()
+        db_session.commit()
+        return {"status":"Deleted"}
+
              
 
-userRoute.add_resource(UserFunction,"/", "/<id>")
+userRoute.add_resource(UserClass,"/", "/<id>")
 
 
 
