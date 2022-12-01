@@ -7,7 +7,7 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: password@123
+      MYSQL_ROOT_PASSWORD: password123
       MYSQL_DATABASE: my_stuff
     restart: always
 

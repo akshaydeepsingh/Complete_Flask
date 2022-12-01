@@ -4,8 +4,10 @@ from model.user_details import User
 from model.posts import Posts,PostsSchema
 from marshmallow.exceptions import ValidationError
 from config.dbConnection import db_session
+from model.channel import Channel
 
-postBlueprint = Blueprint("posts",__name__)
+
+postBlueprint = Blueprint("postBlueprint",__name__)
 postsRoute=Api(postBlueprint)
 
 class PostClass(Resource):
@@ -13,8 +15,11 @@ class PostClass(Resource):
         user = User.query.filter_by(id=id).first()
         requestData = request.json
         post = Posts(title=requestData["title"],category=  requestData["category"],Description= requestData["Description"])
+        channeL = Channel(name="fb")
+        post.channel = [channeL]
         user.posts.append(post)
         db_session.add(user)
+
         db_session.commit()
         return {"status":"created"}
     def get(self,id,postid=None):
@@ -25,10 +30,10 @@ class PostClass(Resource):
             return response
         else:
             user = User.query.filter_by(id = id).first()
-            print(user)
             postschema = PostsSchema()
             if user:
                 response = postschema.dump(user.posts.filter(Posts.id == postid).first())
+                
             else:
                 response = postschema.dump(Posts.query.filter(Posts.id == postid,Posts.userid == id).first())
             
@@ -47,5 +52,5 @@ class PostClass(Resource):
         db_session.commit()
         return {"status":"Deleted"}
 
-postsRoute.add_resource(PostClass,"/<id>/posts","/<id>/posts/<postid>")
+postsRoute.add_resource(PostClass,"/users/<id>/posts/","/users/<id>/posts/<postid>")
         # user.posts.append()

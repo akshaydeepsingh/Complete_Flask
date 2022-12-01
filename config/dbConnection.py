@@ -1,8 +1,11 @@
 from sqlalchemy.ext import declarative
 from sqlalchemy.orm import sessionmaker,scoped_session
 from sqlalchemy import create_engine
-
-DATABASE_URL = "mysql://asr:1337@127.0.0.1:3306/my_stuff"
+import os
+PASSWORD = "password123"
+DB = "my_stuff"
+print(PASSWORD,DB)
+DATABASE_URL = f"mysql://root:{PASSWORD}@127.0.0.1:3310/{DB}"
 
 engine = create_engine(DATABASE_URL,pool_size = 10)  #db_connection
 

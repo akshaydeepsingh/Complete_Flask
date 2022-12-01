@@ -13,6 +13,7 @@ class User(Base):
     password = Column(Text(100))
     registerdate = Column(DateTime, server_default=func.now())
     posts = relationship("Posts",backref="user",lazy= "dynamic")
+ 
 
     def __init__(self,email,password,firstname,lastname=None):
         self.email = email

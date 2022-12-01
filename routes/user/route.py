@@ -4,8 +4,7 @@ from model.user_details import User,UserSchema
 from marshmallow.exceptions import ValidationError
 from config.dbConnection import db_session
 import json
-userBlueprint = Blueprint("userBlueprint",__name__,url_prefix='/users')
-
+userBlueprint = Blueprint("userBlueprint",__name__)
 userRoute = Api(userBlueprint)
 
 class UserClass(Resource):
@@ -14,12 +13,6 @@ class UserClass(Resource):
             user = User.query.all()
             userschema = UserSchema(many=True)
             response = userschema.dump(user)
-<<<<<<< HEAD
-            print(response)
-            # del response["id"]
-=======
-            
->>>>>>> a92bdc5b52984a5df98f0427f0e07039627da414
             return response
         else:
             user = User.query.filter_by(id=id).first()
@@ -57,7 +50,7 @@ class UserClass(Resource):
 
              
 
-userRoute.add_resource(UserClass,"/", "/<id>")
+userRoute.add_resource(UserClass,"/users/", "/users/<id>")
 
 
 
